@@ -33,11 +33,53 @@ if(isset($_POST['done'])){
     <title></title>
 </head>
 <body>
+    
+
     <div class="container">
       <div class="col-lg-12">
           <br>
           <h1 class="text-warning text-center"> Display Table Data</h1>
           <br>
+          <form action="display.php" method="post">
+        <input type="textbox" name="str"/>
+        <input type="submit" name="submit" value="search"/>
+    </form>
+    <table class="table table-striped table-hover table-bordered">
+              <tr class="text-white bg-dark text-center">
+                  <th>ID</th>
+                  <th>Username</th>
+                  <th>Password</th>
+</tr>
+</table>
+    <?php
+    if(isset($_POST['submit'])){
+        $str=$_POST['str'];
+ $qq1="select * from crudtable where name like '%$str%'";
+ $query1=mysqli_query($con,$qq1);
+        if(mysqli_num_rows($query1)>0){
+        echo "data found ";
+      while($res2=mysqli_fetch_array($query1)){
+         ?>
+<table class="table" border="2">
+              <tr class="text-blak bg-light text-center">
+                 <td><?php echo $res2['id']; ?></td>
+                <td><?php echo $res2['name'];?></td>
+                <td><?php echo $res2['password'];?></td>
+              
+                </tr>
+      </table>
+         <?php     
+      }
+        
+    }
+    else{
+        echo"no data found";
+    }
+    }
+?>
+
+
+
           <table class="table table-striped table-hover table-bordered">
               <tr class="text-white bg-dark text-center">
                   <th>ID</th>
@@ -56,12 +98,13 @@ mysqli_select_db($con,'crudtable');
 
 
      $q="select * from crudtable";
-    $queryy=mysqli_query($con,$q);
-    while($res=mysqli_fetch_array($queryy)){
-
+    
+     $queryy=mysqli_query($con,$q);
     
 
- 
+
+    while($res=mysqli_fetch_array($queryy)){
+
  ?>
               <tr class="text-center">
                 <td><?php echo $res['id']; ?></td>
